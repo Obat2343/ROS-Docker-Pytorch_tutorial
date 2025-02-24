@@ -1,6 +1,6 @@
-ARG ROS_DIST=noetic
+ARG ROS_DIST=jazzy
 
-FROM osrf/ros:${ROS_DIST}-desktop-full
+FROM osrf/ros:${ROS_DIST}-desktop
 
 ARG USERNAME
 ARG USER_UID
