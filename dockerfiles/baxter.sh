@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Copyright (c) 2013-2015, Rethink Robotics
 # All rights reserved.
 
@@ -66,8 +66,7 @@ cat <<-EOF > ${tf}
 
 	# verify this script is moved out of baxter folder
 	if [[ -e "${topdir}/baxter_sdk/package.xml" ]]; then
-		echo -ne "EXITING - This script must be moved from the baxter folder \
-to the root of your catkin workspace.\n"
+		echo -ne "EXITING - This script must be moved from the baxter folder to the root of your catkin workspace.\n"
 		exit 1
 	fi
 
@@ -84,62 +83,52 @@ to the root of your catkin workspace.\n"
 	# if set, verify user has modified the baxter_hostname
 	if [ -n ${baxter_hostname} ] && \
 	[[ "${baxter_hostname}" == "baxter_hostname.local" ]]; then
-		echo -ne "EXITING - Please edit this file, modifying the \
-'baxter_hostname' variable to reflect Baxter's current hostname.\n"
+		echo -ne "EXITING - Please edit this file, modifying the 'baxter_hostname' variable to reflect Baxter's current hostname.\n"
 		exit 1
 	fi
 
 	# if set, verify user has modified their ip address (your_ip)
 	if [ -n ${your_ip} ] && [[ "${your_ip}" == "192.168.XXX.XXX" ]]; then
-		echo -ne "EXITING - Please edit this file, modifying the 'your_ip' \
-variable to reflect your current IP address.\n"
+		echo -ne "EXITING - Please edit this file, modifying the 'your_ip' variable to reflect your current IP address.\n"
 		exit 1
 	fi
 
 	# if set, verify user has modified their computer hostname (your_hostname)
 	if [ -n ${your_hostname} ] && \
 	[[ "${your_hostname}" == "my_computer.local" ]]; then
-		echo -ne "EXITING - Please edit this file, modifying the \
-'your_hostname' variable to reflect your current PC hostname.\n"
+		echo -ne "EXITING - Please edit this file, modifying the 'your_hostname' variable to reflect your current PC hostname.\n"
 		exit 1
 	fi
 
 	# verify user does not have both their ip *and* hostname set
 	if [ -n "${your_ip}" ] && [ -n "${your_hostname}" ]; then
-		echo -ne "EXITING - Please edit this file, modifying to specify \
-*EITHER* your_ip or your_hostname.\n"
+		echo -ne "EXITING - Please edit this file, modifying to specify *EITHER* your_ip or your_hostname.\n"
 		exit 1
 	fi
 
 	# verify that one of your_ip, your_hostname, ROS_IP, or ROS_HOSTNAME is set
 	if [ -z "${your_ip}" ] && [ -z "${your_hostname}" ]; then
-		echo -ne "EXITING - Please edit this file, modifying to specify \
-your_ip or your_hostname.\n"
+		echo -ne "EXITING - Please edit this file, modifying to specify your_ip or your_hostname.\n"
 		exit 1	
 	fi
 
 	# verify specified ros version is installed
 	ros_setup="/opt/ros/\${ros_version}"
 	if [ ! -d "\${ros_setup}" ]; then
-		echo -ne "EXITING - Failed to find ROS \${ros_version} installation \
-in \${ros_setup}.\n"
+		echo -ne "EXITING - Failed to find ROS \${ros_version} installation in \${ros_setup}.\n"
 		exit 1
 	fi
 
 	# verify the ros setup.sh file exists
 	if [ ! -s "\${ros_setup}"/setup.sh ]; then
-		echo -ne "EXITING - Failed to find the ROS environment script: \
-"\${ros_setup}"/setup.sh.\n"
+		echo -ne "EXITING - Failed to find the ROS environment script: "\${ros_setup}"/setup.sh.\n"
 		exit 1
 	fi
 
 	# verify the user is running this script in the root of the catkin
 	# workspace and that the workspace has been compiled.
 	if [ ! -s "devel/setup.bash" ]; then
-		echo -ne "EXITING - \n1) Please verify that this script is being run \
-in the root of your catkin workspace.\n2) Please verify that your workspace \
-has been built (source /opt/ros/\${ros_version}/setup.sh; catkin_make).\n\
-3) Run this script again upon completion of your workspace build.\n"
+		echo -ne "EXITING - \n1) Please verify that this script is being run in the root of your catkin workspace.\n2) Please verify that your workspace has been built (source /opt/ros/\${ros_version}/setup.sh; catkin_make).\n3) Run this script again upon completion of your workspace build.\n"
 		exit 1
 	fi
 

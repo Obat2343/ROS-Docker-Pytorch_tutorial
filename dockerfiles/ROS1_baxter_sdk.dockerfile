@@ -16,7 +16,8 @@ RUN apt update && apt install -y x11-apps less sudo
 RUN groupadd -g $USER_GID $USERNAME && \
     useradd -m -u ${USER_UID} -g ${USER_GID} ${USERNAME} && \
     mkdir -p /home/${USERNAME}/.ros && \
-    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} && \
+    usermod --shell /bin/bash ${USERNAME}
 
 # install baxter_sdk
 RUN mkdir -p ros_ws/src
@@ -44,4 +45,5 @@ SHELL ["/bin/bash", "-c"]
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 
 # コンテナの起動スクリプト
-CMD ["bash"]
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["/bin/bash"]

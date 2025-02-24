@@ -15,7 +15,8 @@ RUN apt update && apt install -y x11-apps less sudo
 RUN groupadd -g $USER_GID $USERNAME && \
     useradd -m -u ${USER_UID} -g ${USER_GID} ${USERNAME} && \
     mkdir -p /home/${USERNAME}/.ros && \
-    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} && \
+    usermod --shell /bin/bash ${USERNAME}
 
 # ワークディレクトリとユーザーの設定
 WORKDIR /home/${USERNAME}
