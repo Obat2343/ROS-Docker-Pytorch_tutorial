@@ -167,7 +167,7 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/get_pose.py
+  scripts/gripper_projection_publisher.py
   scripts/gripper_record.py
   scripts/ik_converter.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
