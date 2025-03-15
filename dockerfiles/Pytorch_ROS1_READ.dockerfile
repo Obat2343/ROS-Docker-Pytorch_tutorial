@@ -34,7 +34,7 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -
 
 # ROS1のインストール
-RUN apt update && apt install -y ros-${ROS_DISTRO}-desktop x11-apps less sudo mesa-utils eog && \
+RUN apt update && apt install -y ros-${ROS_DISTRO}-desktop && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ユーザー作成
@@ -46,6 +46,10 @@ RUN groupadd -g ${USER_GID} ${USERNAME} && \
 # ワークディレクトリとユーザーの設定
 WORKDIR /home/${USERNAME}
 USER ${USERNAME}
+
+# RUN git clone https://github.com/Obat2343/READ.git
+# WORKDIR /home/${USERNAME}/READ
+# RUN pip install -r env/requirements.txt
 
 # CUDAバージョンの処理
 RUN CUDA_MAJOR_VER=$(echo ${CUDA_VER} | cut -d. -f1-2 | sed 's/\.//g') && \

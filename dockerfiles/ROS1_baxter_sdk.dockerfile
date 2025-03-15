@@ -11,30 +11,32 @@ RUN echo "Building images based on ros:${ROS_DIST}-desktop-full"
 RUN echo "USERNAME: ${USERNAME} UID:${USER_UID} GID:${GID}" 
 
 # ビルド用の依存関係をインストール
-RUN apt update && apt install -y x11-apps less sudo
+RUN apt update && apt install -y x11-apps less sudo mesa-utils eog
 
 RUN groupadd -g $USER_GID $USERNAME && \
     useradd -m -u ${USER_UID} -g ${USER_GID} ${USERNAME} && \
     mkdir -p /home/${USERNAME}/.ros && \
-    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} && \
     usermod --shell /bin/bash ${USERNAME}
 
 # install baxter_sdk
-RUN mkdir -p ros_ws/src
-WORKDIR /home/${USERNAME}/ros_ws/src
+RUN mkdir -p baxter_ws/src
+WORKDIR /home/${USERNAME}/baxter_ws/src
 RUN git clone https://github.com/RethinkRobotics/baxter.git && \
     git clone https://github.com/RethinkRobotics/baxter_interface.git && \
     git clone https://github.com/RethinkRobotics/baxter_tools.git && \
     git clone https://github.com/RethinkRobotics/baxter_examples.git && \
-    git clone https://github.com/RethinkRobotics/baxter_common.git
+    git clone https://github.com/RethinkRobotics/baxter_common.git && \
+    mkdir baxter_custom
 
 SHELL ["/bin/bash", "-c"]
-WORKDIR /home/${USERNAME}/ros_ws
+WORKDIR /home/${USERNAME}/baxter_ws
 RUN source /opt/ros/${ROS_DIST}/setup.bash && \
     catkin_make && \
     catkin_make install
 
-COPY dockerfiles/baxter.sh /home/${USERNAME}/ros_ws/baxter.sh
+COPY dockerfiles/baxter.sh /home/${USERNAME}/baxter_ws/baxter.sh
+
+RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
 # ワークディレクトリとユーザーの設定
 WORKDIR /home/${USERNAME}

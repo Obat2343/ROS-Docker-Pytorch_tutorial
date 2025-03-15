@@ -20,6 +20,7 @@ parts/
 sdist/
 var/
 wheels/
+baxter_demos/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
